@@ -117,13 +117,14 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
-	if (!m_bHpressed)
+	// H: Debug mode
+	if (!m_bDebugKeys[H_KEY])
 	{
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
 		{
 			m_bDebugMode = !m_bDebugMode;
 
-			m_bHpressed = true;
+			m_bDebugKeys[H_KEY] = true;
 
 			if (m_bDebugMode)
 				std::cout << "Debug mode: ON" << std::endl;
@@ -133,9 +134,47 @@ void PlayScene::handleEvents()
 	}
 	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_H))
 	{
-		m_bHpressed = false;
+		m_bDebugKeys[H_KEY] = false;
+	}
+	if (m_bDebugMode)
+	{
+		// K: enemy damage
+		if (!m_bDebugKeys[K_KEY])
+		{
+			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_K))
+			{
+				std::cout << "\tDebug: enemy took damage!" << std::endl;
+
+				m_bDebugKeys[K_KEY] = true;
+			}
+		}
+		if (EventManager::Instance().isKeyUp(SDL_SCANCODE_K))
+		{
+			m_bDebugKeys[K_KEY] = false;
+		}
+
+		// P: toggle patrol
+		if (!m_bDebugKeys[P_KEY])
+		{
+			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_P))
+			{
+				m_bPatrolMode = !m_bPatrolMode;
+
+				m_bDebugKeys[P_KEY] = true;
+
+				if (m_bPatrolMode)
+					std::cout << "\tPatrol mode: ON" << std::endl;
+				if (!m_bPatrolMode)
+					std::cout << "\tPatrol mode: OFF" << std::endl;
+			}
+		}
+		if (EventManager::Instance().isKeyUp(SDL_SCANCODE_P))
+		{
+			m_bDebugKeys[P_KEY] = false;
+		}
 	}
 
+	// scenes
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
 	{
 		TheGame::Instance()->changeSceneState(START_SCENE);
@@ -163,6 +202,7 @@ void PlayScene::start()
 	addChild(m_pObstacle);
 
 	m_bDebugMode = false;
-	m_bHpressed = false;
+	//m_bPatrolMode = false;
+	//m_bHpressed = false;
 	
 }

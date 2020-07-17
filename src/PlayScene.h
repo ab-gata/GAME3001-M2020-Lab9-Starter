@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Button.h"
 #include "Obstacle.h"
+#include "DebugKeys.h"
 
 class PlayScene : public Scene
 {
@@ -30,8 +31,9 @@ private:
 	Obstacle* m_pObstacle;
 
 	bool m_bDebugMode;
+	bool m_bPatrolMode;
 
-	bool m_bHpressed;
+	bool m_bDebugKeys[DebugKeys::NUM_OF_DEBUG_KEYS]; 
 	
 };
 
