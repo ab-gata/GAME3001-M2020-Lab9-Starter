@@ -117,9 +117,23 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
+	if (!m_bHpressed)
 	{
-		m_bDebugMode = !m_bDebugMode;
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
+		{
+			m_bDebugMode = !m_bDebugMode;
+
+			m_bHpressed = true;
+
+			if (m_bDebugMode)
+				std::cout << "Debug mode: ON" << std::endl;
+			if (!m_bDebugMode)
+				std::cout << "Debug mode: OFF" << std::endl;
+		}
+	}
+	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_H))
+	{
+		m_bHpressed = false;
 	}
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
@@ -149,5 +163,6 @@ void PlayScene::start()
 	addChild(m_pObstacle);
 
 	m_bDebugMode = false;
+	m_bHpressed = false;
 	
 }

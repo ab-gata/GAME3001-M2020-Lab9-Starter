@@ -30,6 +30,8 @@ private:
 	Obstacle* m_pObstacle;
 
 	bool m_bDebugMode;
+
+	bool m_bHpressed;
 	
 };
 
