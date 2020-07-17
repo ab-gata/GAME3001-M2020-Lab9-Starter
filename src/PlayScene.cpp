@@ -15,7 +15,10 @@ void PlayScene::draw()
 {
 	drawDisplayList();
 
-	Util::DrawLine(m_pPlayer->getTransform()->position, m_pPlaneSprite->getTransform()->position);
+	if (m_bDebugMode == true)
+	{
+		Util::DrawLine(m_pPlayer->getTransform()->position, m_pPlaneSprite->getTransform()->position);
+	}
 }
 
 void PlayScene::update()
@@ -33,7 +36,8 @@ void PlayScene::clean()
 void PlayScene::handleEvents()
 {
 	EventManager::Instance().update();
-
+	
+	// KEYBOARD
 	// handle player movement with GameController
 	if (SDL_NumJoysticks() > 0)
 	{
@@ -72,7 +76,7 @@ void PlayScene::handleEvents()
 		}
 	}
 
-
+	// CONTROLLER
 	// handle player movement if no Game Controllers found
 	if (SDL_NumJoysticks() < 1)
 	{
@@ -113,6 +117,11 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_H))
+	{
+		m_bDebugMode = !m_bDebugMode;
+	}
+
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
 	{
 		TheGame::Instance()->changeSceneState(START_SCENE);
@@ -138,5 +147,7 @@ void PlayScene::start()
 	// Obstacle Texture
 	m_pObstacle = new Obstacle();
 	addChild(m_pObstacle);
+
+	m_bDebugMode = false;
 	
 }
